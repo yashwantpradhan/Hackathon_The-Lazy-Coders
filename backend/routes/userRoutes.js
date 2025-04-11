@@ -13,6 +13,5 @@ const upload = multer({ storage });
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
-router.post('/upload-document', upload.single('document'), uploadDocument);
 
 module.exports = router;
