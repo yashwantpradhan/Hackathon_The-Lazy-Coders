@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Compressor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        input[type="file"],
+        input[type="number"],
+        button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .download-link {
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        .download-link a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .download-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>File Compressor</h2>
+    <form id="upload-form">
+        <label>Select Image or PDF:</label>
+        <input type="file" id="file" name="file" required>
+
+        <label>Image Quality (0-100):</label>
+        <input type="number" id="quality" name="quality" min="1" max="100" value="70" required>
+
+        <button type="submit">Compress</button>
+    </form>
+
+    <div class="download-link" id="download-link">
+        <p>Download your compressed file:</p>
+        <a id="download-url" href="#" download>Download</a>
+    </div>
+</div>
+
+<script>
+    document.getElementById("upload-form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const fileInput = document.getElementById("file");
+        const qualityInput = document.getElementById("quality");
+
+        const formData = new FormData();
+        formData.append("file", fileInput.files[0]);
+        formData.append("image_quality", qualityInput.value);
+
+        const response = await fetch("http://127.0.0.1:8000/compress/", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) {
+            alert("Error compressing file.");
+            return;
+        }
+
+        const blob = await response.blob();
+        const downloadUrl = URL.createObjectURL(blob);
+
+        const downloadLink = document.getElementById("download-link");
+        const anchor = document.getElementById("download-url");
+        const filename = fileInput.files[0].name.replace(/\.(pdf|jpg|jpeg|png)$/, '_compressed.$1');
+        anchor.href = downloadUrl;
+        anchor.download = filename;
+        downloadLink.style.display = "block";
+    });
+</script>
+
+</body>
+</html>
