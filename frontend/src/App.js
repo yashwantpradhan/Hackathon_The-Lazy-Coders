@@ -31,15 +31,18 @@ function App() {
           <Link to="/dashboard">Dashboard</Link>
         </nav>
 
-        <MyComponent />
+        // <MyComponent />
 
         <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          {/* <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </Router>
+    // <>
+    //   {/* <Dashboard /> */}
+    // </>
   );
 }
 

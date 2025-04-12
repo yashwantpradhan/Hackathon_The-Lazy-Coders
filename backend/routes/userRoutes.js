@@ -13,5 +13,9 @@ const upload = multer({ storage });
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+<<<<<<< HEAD
+=======
+// router.post('/upload-document', upload.single('document'), uploadDocument);
+>>>>>>> 605e80c (push at  6am)
 
 module.exports = router;
